@@ -1,5 +1,5 @@
-use std::mem::{swap, transmute};
-use std::sync::Arc;
+use alloc::sync::Arc;
+use core::mem::{swap, transmute};
 
 /// A reverse singly-linked list.
 ///

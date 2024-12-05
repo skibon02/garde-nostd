@@ -41,18 +41,18 @@ macro_rules! impl_via_len {
     };
 }
 
-impl_via_len!(std::string::String);
-impl_via_len!(in<'a> &'a std::string::String);
+impl_via_len!(alloc::string::String);
+impl_via_len!(in<'a> &'a alloc::string::String);
 impl_via_len!(in<'a> &'a str);
-impl_via_len!(in<'a> std::borrow::Cow<'a, str>);
-impl_via_len!(std::rc::Rc<str>);
-impl_via_len!(std::sync::Arc<str>);
-impl_via_len!(std::boxed::Box<str>);
+impl_via_len!(in<'a> alloc::borrow::Cow<'a, str>);
+impl_via_len!(alloc::rc::Rc<str>);
+impl_via_len!(alloc::sync::Arc<str>);
+impl_via_len!(alloc::boxed::Box<str>);
 impl_via_len!(in<'a> &'a [u8]);
-impl_via_len!(std::rc::Rc<[u8]>);
-impl_via_len!(std::sync::Arc<[u8]>);
-impl_via_len!(std::boxed::Box<[u8]>);
-impl_via_len!(std::vec::Vec<u8>);
+impl_via_len!(alloc::rc::Rc<[u8]>);
+impl_via_len!(alloc::sync::Arc<[u8]>);
+impl_via_len!(alloc::boxed::Box<[u8]>);
+impl_via_len!(alloc::vec::Vec<u8>);
 
 impl<const N: usize> HasBytes for [u8; N] {
     fn num_bytes(&self) -> usize {

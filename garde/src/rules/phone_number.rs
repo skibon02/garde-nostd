@@ -12,8 +12,9 @@
 //!
 //! This trait has a blanket implementation for all `T: garde::rules::AsStr`.
 
-use std::fmt::Display;
-use std::str::FromStr;
+use alloc::format;
+use core::fmt::Display;
+use core::str::FromStr;
 
 use super::AsStr;
 use crate::error::Error;

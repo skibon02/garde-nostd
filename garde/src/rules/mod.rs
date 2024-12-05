@@ -1,5 +1,7 @@
 //! ## Validation rules
 
+use alloc::string::String;
+
 pub mod alphanumeric;
 pub mod ascii;
 pub mod contains;
@@ -37,8 +39,8 @@ impl AsStr for String {
     }
 }
 
-impl<'a> AsStr for std::borrow::Cow<'a, str> {
+impl<'a> AsStr for alloc::borrow::Cow<'a, str> {
     fn as_str(&self) -> &str {
-        std::borrow::Cow::as_ref(self)
+        alloc::borrow::Cow::as_ref(self)
     }
 }

@@ -10,6 +10,7 @@
 //!
 //! The entrypoint is the [`Inner`] trait. Implementing this trait for a type allows that type to be used with the `#[garde(inner(..))]` rule.
 
+use alloc::vec::Vec;
 use crate::error::{NoKey, PathComponentKind};
 
 pub fn apply<T, U, K, F>(field: &T, f: F)

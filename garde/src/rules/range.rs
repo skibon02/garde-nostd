@@ -12,7 +12,8 @@
 //!
 //! This trait is implemented for all primitive integer types.
 
-use std::fmt::Display;
+use alloc::format;
+use core::fmt::Display;
 
 use crate::error::Error;
 

@@ -12,7 +12,8 @@
 //!
 //! This trait has a blanket implementation for all `T: garde::rules::AsStr`.
 
-use std::fmt::Display;
+use alloc::format;
+use core::fmt::Display;
 
 use super::AsStr;
 use crate::error::Error;
@@ -38,7 +39,7 @@ pub enum IpKind {
 }
 
 impl Display for IpKind {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
             IpKind::Any => write!(f, "IP"),
             IpKind::V4 => write!(f, "IPv4"),
@@ -48,19 +49,19 @@ impl Display for IpKind {
 }
 
 impl<T: AsStr> Ip for T {
-    type Error = std::net::AddrParseError;
+    type Error = core::net::AddrParseError;
 
     fn validate_ip(&self, kind: IpKind) -> Result<(), Self::Error> {
         let v = self.as_str();
         match kind {
             IpKind::Any => {
-                let _ = v.parse::<std::net::IpAddr>()?;
+                let _ = v.parse::<core::net::IpAddr>()?;
             }
             IpKind::V4 => {
-                let _ = v.parse::<std::net::Ipv4Addr>()?;
+                let _ = v.parse::<core::net::Ipv4Addr>()?;
             }
             IpKind::V6 => {
-                let _ = v.parse::<std::net::Ipv6Addr>()?;
+                let _ = v.parse::<core::net::Ipv6Addr>()?;
             }
         };
         Ok(())

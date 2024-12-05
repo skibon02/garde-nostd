@@ -43,6 +43,8 @@
 //!
 
 pub mod bytes;
+
+use alloc::format;
 pub use bytes::HasBytes;
 
 pub mod chars;

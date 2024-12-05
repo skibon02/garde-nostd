@@ -4,8 +4,10 @@
 #![allow(dead_code)]
 
 mod rc_list;
-use std::borrow::Cow;
 
+use alloc::borrow::Cow;
+use alloc::string::String;
+use alloc::vec::Vec;
 use compact_str::{CompactString, ToCompactString};
 use smallvec::SmallVec;
 
@@ -52,8 +54,8 @@ impl Report {
     }
 }
 
-impl std::fmt::Display for Report {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl core::fmt::Display for Report {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         for (path, error) in self.iter() {
             if path.is_empty() {
                 writeln!(f, "{error}")?;
@@ -65,7 +67,7 @@ impl std::fmt::Display for Report {
     }
 }
 
-impl std::error::Error for Report {}
+impl core::error::Error for Report {}
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -85,13 +87,13 @@ impl Error {
     }
 }
 
-impl std::fmt::Display for Error {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+impl core::fmt::Display for Error {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         write!(f, "{}", self.message)
     }
 }
 
-impl std::error::Error for Error {}
+impl core::error::Error for Error {}
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Path {
@@ -115,13 +117,13 @@ pub enum Kind {
 #[derive(Default)]
 pub struct NoKey(());
 
-impl std::fmt::Display for NoKey {
-    fn fmt(&self, _: &mut std::fmt::Formatter) -> std::fmt::Result {
+impl core::fmt::Display for NoKey {
+    fn fmt(&self, _: &mut core::fmt::Formatter) -> core::fmt::Result {
         Ok(())
     }
 }
 
-pub trait PathComponentKind: std::fmt::Display + ToCompactString {
+pub trait PathComponentKind: core::fmt::Display + ToCompactString {
     fn component_kind() -> Kind;
 }
 
@@ -189,16 +191,16 @@ impl Path {
     }
 }
 
-type TempComponents<'a> = SmallVec<[(Kind, &'a CompactString); 8]>;
+type TempComponents<'a> = SmallVec<(Kind, &'a CompactString), 8>;
 
-impl std::fmt::Debug for Path {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl core::fmt::Debug for Path {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         struct Components<'a> {
             path: &'a Path,
         }
 
-        impl<'a> std::fmt::Debug for Components<'a> {
-            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        impl<'a> core::fmt::Debug for Components<'a> {
+            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
                 let mut list = f.debug_list();
                 list.entries(self.path.__iter().rev().map(|(_, c)| c))
                     .finish()
@@ -211,8 +213,8 @@ impl std::fmt::Debug for Path {
     }
 }
 
-impl std::fmt::Display for Path {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+impl core::fmt::Display for Path {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         let mut components = self.__iter().rev().peekable();
         let mut first = true;
         while let Some((kind, component)) = components.next() {

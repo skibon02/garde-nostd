@@ -13,7 +13,7 @@
 //! Alternatively, it can be an expression of type implementing [`Matcher`] or one that dereferences to a [`Matcher`].
 //! [`Matcher`] is implemented for `regex::Regex` (if the `regex` feature is enabled) and `once_cell::sync::Lazy<T>` with any `T: Matcher`.
 //! Please note that the expression will be evaluated each time `validate` is called, so avoid doing any expensive work in the expression.
-//! If the work is unavoidable, at least try to amortize it, such as by using `once_cell::Lazy` or the nightly-only `std::sync::LazyLock`.
+//! If the work is unavoidable, at least try to amortize it, such as by using `once_cell::Lazy` or the nightly-only `core::sync::LazyLock`.
 //!
 //! ```rust
 //! use once_cell::sync::Lazy;
@@ -32,6 +32,7 @@
 //!
 //! This trait has a blanket implementation for all `T: garde::rules::AsStr`.
 
+use alloc::format;
 use super::AsStr;
 use crate::error::Error;
 

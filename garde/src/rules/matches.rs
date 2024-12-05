@@ -14,6 +14,7 @@
 //!
 //! This trait has a blanket implementation for all `T: PartialEq<O>, O`.
 
+use alloc::format;
 use crate::Error;
 
 pub fn apply<T: Matches<O>, O>(v: &T, (field, value): (&str, &O)) -> Result<(), Error> {

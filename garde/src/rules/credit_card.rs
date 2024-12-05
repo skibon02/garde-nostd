@@ -12,7 +12,8 @@
 //!
 //! This trait has a blanket implementation for all `T: garde::rules::AsStr`.
 
-use std::fmt::Display;
+use alloc::format;
+use core::fmt::Display;
 
 use super::AsStr;
 use crate::error::Error;
@@ -52,7 +53,7 @@ impl<T: CreditCard> CreditCard for Option<T> {
 
 pub struct InvalidCard(card_validate::ValidateError);
 impl Display for InvalidCard {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match &self.0 {
             card_validate::ValidateError::InvalidFormat => write!(f, "invalid format"),
             card_validate::ValidateError::InvalidLength => write!(f, "invalid length"),

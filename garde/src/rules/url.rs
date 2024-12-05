@@ -15,7 +15,8 @@
 //! If you need to implement this for a string-like type where a contiguous slice of the entire contents cannot be obtained,
 //! then there is currently no way for you to implement this trait.
 
-use std::fmt::Display;
+use alloc::format;
+use core::fmt::Display;
 
 use super::AsStr;
 use crate::error::Error;

@@ -41,13 +41,13 @@ macro_rules! impl_via_chars {
     };
 }
 
-impl_via_chars!(std::string::String);
-impl_via_chars!(in<'a> &'a std::string::String);
+impl_via_chars!(alloc::string::String);
+impl_via_chars!(in<'a> &'a alloc::string::String);
 impl_via_chars!(in<'a> &'a str);
-impl_via_chars!(in<'a> std::borrow::Cow<'a, str>);
-impl_via_chars!(std::rc::Rc<str>);
-impl_via_chars!(std::sync::Arc<str>);
-impl_via_chars!(std::boxed::Box<str>);
+impl_via_chars!(in<'a> alloc::borrow::Cow<'a, str>);
+impl_via_chars!(alloc::rc::Rc<str>);
+impl_via_chars!(alloc::sync::Arc<str>);
+impl_via_chars!(alloc::boxed::Box<str>);
 
 macro_rules! impl_via_len {
     ($(in<$lifetime:lifetime>)? $T:ty) => {
@@ -60,7 +60,7 @@ macro_rules! impl_via_len {
 }
 
 impl_via_len!(in<'a> &'a [char]);
-impl_via_len!(std::sync::Arc<[char]>);
-impl_via_len!(std::rc::Rc<[char]>);
-impl_via_len!(std::boxed::Box<[char]>);
-impl_via_len!(std::vec::Vec<char>);
+impl_via_len!(alloc::sync::Arc<[char]>);
+impl_via_len!(alloc::rc::Rc<[char]>);
+impl_via_len!(alloc::boxed::Box<[char]>);
+impl_via_len!(alloc::vec::Vec<char>);

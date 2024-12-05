@@ -12,8 +12,9 @@
 //!
 //! This trait has a blanket implementation for all `T: garde::rules::AsStr`.
 
-use std::fmt::Display;
-use std::str::FromStr;
+use alloc::format;
+use core::fmt::Display;
+use core::str::FromStr;
 
 use super::pattern::Matcher;
 use super::AsStr;
@@ -74,7 +75,7 @@ pub enum InvalidEmail {
 }
 
 impl Display for InvalidEmail {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
             InvalidEmail::Empty => write!(f, "value is empty"),
             InvalidEmail::MissingAt => write!(f, "value is missing `@`"),
@@ -160,14 +161,14 @@ fn is_smtp_addr(domain: &str) -> bool {
         Some(domain) => domain,
         None => return false,
     };
-    std::net::IpAddr::from_str(domain).is_ok()
+    core::net::IpAddr::from_str(domain).is_ok()
 }
 
 // Tests taken from `validator`, modified for this API
 // https://github.com/Keats/validator/blob/09efa7e78e6fbc853a6a56af6904a00e2e6632b8/validator/src/validation/email.rs#L76
 #[cfg(test)]
 mod tests {
-    use std::borrow::Cow;
+    use alloc::borrow::Cow;
 
     use super::*;
 

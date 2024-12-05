@@ -16,6 +16,7 @@
 //!
 //! This trait has a blanket implementation for all `T: garde::rules::AsStr`.
 
+use alloc::format;
 use super::AsStr;
 use crate::error::Error;
 

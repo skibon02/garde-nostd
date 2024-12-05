@@ -1,6 +1,7 @@
 //! ## Core validation traits and types
 
-use std::fmt::Debug;
+use alloc::borrow::ToOwned;
+use core::fmt::Debug;
 
 use crate::error::{Path, PathComponentKind};
 use crate::Report;
@@ -67,7 +68,7 @@ impl<T: Validate> Valid<T> {
     }
 }
 
-impl<T> std::ops::Deref for Valid<T> {
+impl<T> core::ops::Deref for Valid<T> {
     type Target = T;
 
     fn deref(&self) -> &Self::Target {
@@ -115,7 +116,7 @@ impl<T: Validate> From<T> for Unvalidated<T> {
 }
 
 impl<T: Debug> Debug for Unvalidated<T> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         Debug::fmt(&self.0, f)
     }
 }
@@ -146,7 +147,7 @@ impl<'a, T: ?Sized + Validate> Validate for &'a mut T {
     }
 }
 
-impl<T: Validate> Validate for std::boxed::Box<T> {
+impl<T: Validate> Validate for alloc::boxed::Box<T> {
     type Context = T::Context;
 
     fn validate_into(
@@ -159,7 +160,7 @@ impl<T: Validate> Validate for std::boxed::Box<T> {
     }
 }
 
-impl<T: Validate> Validate for std::rc::Rc<T> {
+impl<T: Validate> Validate for alloc::rc::Rc<T> {
     type Context = T::Context;
 
     fn validate_into(
@@ -172,7 +173,7 @@ impl<T: Validate> Validate for std::rc::Rc<T> {
     }
 }
 
-impl<T: Validate> Validate for std::sync::Arc<T> {
+impl<T: Validate> Validate for alloc::sync::Arc<T> {
     type Context = T::Context;
 
     fn validate_into(
@@ -203,12 +204,12 @@ macro_rules! impl_validate_list {
     };
 }
 
-impl_validate_list!(<T, S> std::collections::HashSet<T, S>);
-impl_validate_list!(<T> std::collections::BTreeSet<T>);
-impl_validate_list!(<T> std::collections::BinaryHeap<T>);
-impl_validate_list!(<T> std::collections::LinkedList<T>);
-impl_validate_list!(<T> std::collections::VecDeque<T>);
-impl_validate_list!(<T> std::vec::Vec<T>);
+// impl_validate_list!(<T, S> alloc::collections::HashSet<T, S>);
+impl_validate_list!(<T> alloc::collections::BTreeSet<T>);
+impl_validate_list!(<T> alloc::collections::BinaryHeap<T>);
+impl_validate_list!(<T> alloc::collections::LinkedList<T>);
+impl_validate_list!(<T> alloc::collections::VecDeque<T>);
+impl_validate_list!(<T> alloc::vec::Vec<T>);
 impl_validate_list!(<T> [T]);
 
 impl<T: Validate, const N: usize> Validate for [T; N] {
@@ -277,27 +278,27 @@ impl Validate for () {
     fn validate_into(&self, _: &Self::Context, _: &mut dyn FnMut() -> Path, _: &mut Report) {}
 }
 
-impl<K, V, S> Validate for std::collections::HashMap<K, V, S>
-where
-    K: Clone + PathComponentKind,
-    V: Validate,
-{
-    type Context = V::Context;
+// impl<K, V, S> Validate for alloc::collections::HashMap<K, V, S>
+// where
+//     K: Clone + PathComponentKind,
+//     V: Validate,
+// {
+//     type Context = V::Context;
+//
+//     fn validate_into(
+//         &self,
+//         ctx: &Self::Context,
+//         mut parent: &mut dyn FnMut() -> Path,
+//         report: &mut Report,
+//     ) {
+//         for (key, value) in self.iter() {
+//             let mut path = crate::util::nested_path!(parent, key);
+//             <V as Validate>::validate_into(value, ctx, &mut path, report);
+//         }
+//     }
+// }
 
-    fn validate_into(
-        &self,
-        ctx: &Self::Context,
-        mut parent: &mut dyn FnMut() -> Path,
-        report: &mut Report,
-    ) {
-        for (key, value) in self.iter() {
-            let mut path = crate::util::nested_path!(parent, key);
-            <V as Validate>::validate_into(value, ctx, &mut path, report);
-        }
-    }
-}
-
-impl<K, V> Validate for std::collections::BTreeMap<K, V>
+impl<K, V> Validate for alloc::collections::BTreeMap<K, V>
 where
     K: Clone + PathComponentKind,
     V: Validate,
@@ -332,7 +333,7 @@ impl<T: Validate> Validate for Option<T> {
     }
 }
 
-impl<'a, B: Validate> Validate for std::borrow::Cow<'a, B>
+impl<'a, B: Validate> Validate for alloc::borrow::Cow<'a, B>
 where
     B: ToOwned,
 {

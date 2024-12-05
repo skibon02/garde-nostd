@@ -39,10 +39,10 @@ macro_rules! impl_str {
     };
 }
 
-impl_str!(std::string::String);
-impl_str!(in<'a> &'a std::string::String);
+impl_str!(alloc::string::String);
+impl_str!(in<'a> &'a alloc::string::String);
 impl_str!(in<'a> &'a str);
-impl_str!(in<'a> std::borrow::Cow<'a, str>);
-impl_str!(std::rc::Rc<str>);
-impl_str!(std::sync::Arc<str>);
-impl_str!(std::boxed::Box<str>);
+impl_str!(in<'a> alloc::borrow::Cow<'a, str>);
+impl_str!(alloc::rc::Rc<str>);
+impl_str!(alloc::sync::Arc<str>);
+impl_str!(alloc::boxed::Box<str>);
